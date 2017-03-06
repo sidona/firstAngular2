@@ -16,19 +16,37 @@ var event_thumbnail_component_1 = require("./events/event-thumbnail.component");
 var navbar_component_1 = require("./nav/navbar.component");
 var event_service_1 = require("./events/shared/event.service");
 var toastr_service_1 = require("./common/toastr.service");
+var event_details_component_1 = require("./events/event-detail/event-details.component");
+var router_1 = require("@angular/router");
+var routes_1 = require("./routes");
+var create_event_component_1 = require("./events/create-event.component");
+var _404_component_1 = require("./errors/404.component");
+var event_route_activator_service_1 = require("./events/event-detail/event-route-activator.service");
+var events_list_resolver_service_1 = require("./events/events-list-resolver.service");
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule],
-            declarations: [events_app_component_1.EventsAppComponent, events_list_component_1.EventsListComponent, event_thumbnail_component_1.EventThumbnailComponent, navbar_component_1.NavBarComponent],
+            imports: [platform_browser_1.BrowserModule, router_1.RouterModule.forRoot(routes_1.appRoutes)],
+            declarations: [events_app_component_1.EventsAppComponent, events_list_component_1.EventsListComponent, event_thumbnail_component_1.EventThumbnailComponent, navbar_component_1.NavBarComponent, event_details_component_1.EventDetailComponent, create_event_component_1.CreateEventComponent, _404_component_1.Error404Component],
             bootstrap: [events_app_component_1.EventsAppComponent],
-            providers: [event_service_1.EventService, toastr_service_1.ToastrService]
+            providers: [
+                event_service_1.EventService,
+                toastr_service_1.ToastrService,
+                event_route_activator_service_1.EventRouteActivator,
+                events_list_resolver_service_1.EventListResolver,
+                { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState }
+            ]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);
     return AppModule;
 }());
 exports.AppModule = AppModule;
+function checkDirtyState(component) {
+    if (component.isDirty)
+        return window.confirm('you have not saved this event, do you really want to cancel?');
+    return true;
+}
 //# sourceMappingURL=app.module.js.map
