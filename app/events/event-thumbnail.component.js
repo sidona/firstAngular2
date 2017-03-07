@@ -17,12 +17,12 @@ var EventThumbnailComponent = (function () {
     EventThumbnailComponent.prototype.handleClickMe = function () {
         this.eventClick.emit(this.event.name);
     };
-    EventThumbnailComponent.prototype.logFoo = function () {
-        console.log('foo');
-    };
+    // logFoo(){
+    //     console.log('foo')
+    // }
     EventThumbnailComponent.prototype.getStartTimeClass = function () {
-        var isEarlyStart = this.event && this.event.time === '8:00 am';
-        return { green: isEarlyStart, bold: isEarlyStart };
+        if (this.event && this.event.time === '8:00 am')
+            return { color: '#003300', 'font-weight': 'bold' };
     };
     __decorate([
         core_1.Input(), 

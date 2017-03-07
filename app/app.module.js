@@ -23,19 +23,37 @@ var create_event_component_1 = require("./events/create-event.component");
 var _404_component_1 = require("./errors/404.component");
 var event_route_activator_service_1 = require("./events/event-detail/event-route-activator.service");
 var events_list_resolver_service_1 = require("./events/events-list-resolver.service");
+var auth_service_1 = require("./user/auth.service");
+var forms_1 = require("@angular/forms");
+var create_session_component_1 = require("./events/event-detail/create-session.component");
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, router_1.RouterModule.forRoot(routes_1.appRoutes)],
-            declarations: [events_app_component_1.EventsAppComponent, events_list_component_1.EventsListComponent, event_thumbnail_component_1.EventThumbnailComponent, navbar_component_1.NavBarComponent, event_details_component_1.EventDetailComponent, create_event_component_1.CreateEventComponent, _404_component_1.Error404Component],
+            imports: [
+                platform_browser_1.BrowserModule,
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule,
+                router_1.RouterModule.forRoot(routes_1.appRoutes),
+            ],
+            declarations: [
+                events_app_component_1.EventsAppComponent,
+                events_list_component_1.EventsListComponent,
+                event_thumbnail_component_1.EventThumbnailComponent,
+                navbar_component_1.NavBarComponent,
+                event_details_component_1.EventDetailComponent,
+                create_event_component_1.CreateEventComponent,
+                _404_component_1.Error404Component,
+                create_session_component_1.CreateSessionComponent
+            ],
             bootstrap: [events_app_component_1.EventsAppComponent],
             providers: [
                 event_service_1.EventService,
                 toastr_service_1.ToastrService,
                 event_route_activator_service_1.EventRouteActivator,
                 events_list_resolver_service_1.EventListResolver,
+                auth_service_1.AuthService,
                 { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState }
             ]
         }), 

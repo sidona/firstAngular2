@@ -9,8 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var auth_service_1 = require("../user/auth.service");
 var NavBarComponent = (function () {
-    function NavBarComponent() {
+    function NavBarComponent(auth) {
+        this.auth = auth;
     }
     NavBarComponent = __decorate([
         core_1.Component({
@@ -20,7 +22,7 @@ var NavBarComponent = (function () {
                     '#searchForm{margin-right:100px} ' +
                     'li > a.active{color:#F97924;}']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [auth_service_1.AuthService])
     ], NavBarComponent);
     return NavBarComponent;
 }());
