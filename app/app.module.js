@@ -15,7 +15,7 @@ var events_list_component_1 = require("./events/events-list.component");
 var event_thumbnail_component_1 = require("./events/event-thumbnail.component");
 var navbar_component_1 = require("./nav/navbar.component");
 var event_service_1 = require("./events/shared/event.service");
-var toastr_service_1 = require("./common/toastr.service");
+var index_1 = require("./common/index");
 var event_details_component_1 = require("./events/event-detail/event-details.component");
 var router_1 = require("@angular/router");
 var routes_1 = require("./routes");
@@ -26,6 +26,7 @@ var events_list_resolver_service_1 = require("./events/events-list-resolver.serv
 var auth_service_1 = require("./user/auth.service");
 var forms_1 = require("@angular/forms");
 var create_session_component_1 = require("./events/event-detail/create-session.component");
+var session_list_component_1 = require("./events/event-detail/session-list.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -45,12 +46,17 @@ var AppModule = (function () {
                 event_details_component_1.EventDetailComponent,
                 create_event_component_1.CreateEventComponent,
                 _404_component_1.Error404Component,
-                create_session_component_1.CreateSessionComponent
+                create_session_component_1.CreateSessionComponent,
+                session_list_component_1.SessionListComponent,
+                index_1.CollapsibleWellComponent,
+                index_1.SimpleModalComponent,
+                index_1.ModalTriggerDirective
             ],
             bootstrap: [events_app_component_1.EventsAppComponent],
             providers: [
                 event_service_1.EventService,
-                toastr_service_1.ToastrService,
+                { provide: index_1.TOASTR_TOKEN, useValue: toastr },
+                { provide: index_1.JQ_TOKEN, useValue: jQuery },
                 event_route_activator_service_1.EventRouteActivator,
                 events_list_resolver_service_1.EventListResolver,
                 auth_service_1.AuthService,

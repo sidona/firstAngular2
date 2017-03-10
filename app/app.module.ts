@@ -5,7 +5,7 @@ import {EventsListComponent} from "./events/events-list.component";
 import {EventThumbnailComponent} from "./events/event-thumbnail.component";
 import {NavBarComponent} from "./nav/navbar.component";
 import {EventService} from "./events/shared/event.service";
-import {ToastrService} from "./common/toastr.service";
+import {JQ_TOKEN,TOASTR_TOKEN,Toastr,CollapsibleWellComponent,SimpleModalComponent,ModalTriggerDirective} from "./common/index";
 import {EventDetailComponent} from "./events/event-detail/event-details.component";
 import {RouterModule} from "@angular/router";
 import {appRoutes} from "./routes";
@@ -16,8 +16,13 @@ import {EventListResolver} from "./events/events-list-resolver.service";
 import {AuthService} from "./user/auth.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CreateSessionComponent} from "./events/event-detail/create-session.component";
+import {SessionListComponent} from "./events/event-detail/session-list.component";
 
 
+
+
+declare let toastr:Toastr
+declare let jQuery: Object
 
 @NgModule({
     imports: [
@@ -34,12 +39,17 @@ import {CreateSessionComponent} from "./events/event-detail/create-session.compo
         EventDetailComponent,
         CreateEventComponent,
         Error404Component,
-        CreateSessionComponent
+        CreateSessionComponent,
+        SessionListComponent,
+        CollapsibleWellComponent,
+        SimpleModalComponent,
+        ModalTriggerDirective
     ],
     bootstrap:[EventsAppComponent],
     providers:[
         EventService,
-        ToastrService,
+        {provide:TOASTR_TOKEN, useValue:toastr},
+        {provide:JQ_TOKEN, useValue:jQuery},
         EventRouteActivator,
         EventListResolver,
         AuthService,
@@ -52,6 +62,6 @@ export class AppModule {
 
 function checkDirtyState(component:CreateEventComponent){
    if(component.isDirty)
-       return window.confirm('you have not saved this event, do you really want to cancel?')
+       return window.confirm('you have not saved this event, do you really want to cancel?');
     return true
 }

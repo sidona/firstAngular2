@@ -29,6 +29,27 @@ var EventService = (function () {
         event.session = [];
         EVENTS.push(event);
     };
+    EventService.prototype.updateEvent = function (event) {
+        var index = EVENTS.findIndex(function (x) { return x.id = event.id; });
+        EVENTS[index] = event;
+    };
+    EventService.prototype.searchSession = function (searchTerm) {
+        var term = searchTerm.toLocaleLowerCase();
+        var results = [];
+        EVENTS.forEach(function (event) {
+            var matchingSessions = event.sessions.filter(function (session) { return session.name.toLocaleLowerCase().indexOf(term) > -1; });
+            matchingSessions = matchingSessions.map(function (session) {
+                session.eventId = event.id;
+                return session;
+            });
+            results = results.concat(matchingSessions);
+        });
+        var emitter = new core_1.EventEmitter(true);
+        setTimeout(function () {
+            emitter.emit(results);
+        }, 100);
+        return emitter;
+    };
     EventService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])
@@ -57,7 +78,7 @@ var EVENTS = [
                 duration: 1,
                 level: "Intermediate",
                 abstract: "Learn all about the new pipes in Angular 4, both \n          how to write them, and how to get the new AI CLI to write \n          them for you. Given by the famous PBD, president of Angular \n          University (formerly Oxford University)",
-                voters: ['bradgreen', 'igorminar', 'martinfowler']
+                voters: ['bradgreen', 'igorminar', 'martinfowler', 'martinfowler']
             },
             {
                 id: 2,

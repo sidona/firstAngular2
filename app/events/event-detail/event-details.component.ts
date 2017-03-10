@@ -1,24 +1,43 @@
-
-
 import {Component} from "@angular/core";
 import {EventService} from "../shared/event.service";
-import {ActivatedRoute} from "@angular/router";
-import {IEvent} from "../shared/event.model";
+import {ActivatedRoute, Params} from "@angular/router";
+import {IEvent, ISession} from "../shared/event.model";
 @Component({
-    templateUrl:'/app/events/event-detail/event-detail.component.html',
-    styles:['.container{padding-left:20px},' +
+    templateUrl: '/app/events/event-detail/event-detail.component.html',
+    styles: ['.container{padding-left:20px},' +
     '.event-image{height:100px}']
 })
 
-export class EventDetailComponent{
+export class EventDetailComponent {
 
-    event:IEvent
-constructor(private eventService:EventService,private route:ActivatedRoute){
+    event: IEvent;
+    addMode: boolean;
 
-}
-ngOnInit(){
-    this.event=this.eventService.getEvent(+this.route.snapshot.params['id'])
-}
+    constructor(private eventService: EventService, private route: ActivatedRoute) {
 
+    }
+
+    ngOnInit() {
+        this.route.params.forEach((params:Params)=>{
+            this.event=this.eventService.getEvent(+params['id'])
+        });
+
+        // this.event = this.eventService.getEvent(+this.route.snapshot.params['id'])
+    }
+
+    addSession() {
+        this.addMode = true;
+    }
+
+    saveNewSession(session: ISession) {
+        const nextId = Math.max.apply(null, this.event.sessions.map(s => s.id));
+        session.id = nextId + 1;
+        this.event.sessions.push(session);
+        this.eventService.updateEvent(this.event);
+        this.addMode = false
+    }
+    cancelAddSession(){
+        this.addMode=false
+    }
 }
 

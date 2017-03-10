@@ -1,8 +1,8 @@
 
 
-import {Injectable} from "@angular/core";
+import {Injectable, EventEmitter} from "@angular/core";
 import {Subject, Observable} from 'rxjs/RX';
-import {IEvent} from "./event.model";
+import {IEvent, ISession} from "./event.model";
 
 
 @Injectable()
@@ -17,12 +17,35 @@ export class EventService{
             return subject;
     }
     getEvent(id:number) :IEvent{
-        return EVENTS.find(event=> event.id===id)
+        return EVENTS.find(event=> event.id===id);
     }
     saveEvent(event){
         event.id=999;
-        event.session=[]
-        EVENTS.push(event)
+        event.session=[];
+        EVENTS.push(event);
+    }
+    updateEvent(event){
+        let index=EVENTS.findIndex(x=>x.id=event.id);
+        EVENTS[index]=event
+    }
+    searchSession(searchTerm:string){
+        let term=searchTerm.toLocaleLowerCase();
+        let results:ISession[]=[];
+
+        EVENTS.forEach(event=>{
+            let  matchingSessions=event.sessions.filter(session=> session.name.toLocaleLowerCase().indexOf(term)>-1);
+                matchingSessions=matchingSessions.map((session:any)=>{
+                    session.eventId=event.id;
+                    return session;
+                })
+            results=results.concat(matchingSessions);
+
+        })
+        let emitter=new EventEmitter(true);
+        setTimeout(()=>{
+            emitter.emit(results);
+        },100);
+        return emitter;
     }
 }
 
@@ -50,7 +73,7 @@ const EVENTS:IEvent[]=[
           how to write them, and how to get the new AI CLI to write 
           them for you. Given by the famous PBD, president of Angular 
           University (formerly Oxford University)`,
-                voters: ['bradgreen', 'igorminar', 'martinfowler']
+                voters: ['bradgreen', 'igorminar', 'martinfowler','martinfowler']
             },
             {
                 id: 2,
